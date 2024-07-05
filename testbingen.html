@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Download Binary File</title>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f7f7f7;
+        text-align: center;
+        padding: 50px;
+    }
+    h1 {
+        color: #333;
+    }
+    #fileSize, #sizeUnit, button {
+        margin: 10px;
+        padding: 10px;
+        font-size: 16px;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    .container {
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        display: inline-block;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    img {
+        max-width: 55%;
+        height: auto;
+        border-radius: 8px;
+    }
+</style>
+<script>
+function downloadBinFile() {
+    // Get the file size from the user input
+    var fileSize = document.getElementById('fileSize').value;
+    var sizeUnit = document.getElementById('sizeUnit').value;
+
+    // Convert the file size to bytes based on the selected unit
+    var fileSizeInBytes = fileSize;
+    switch(sizeUnit) {
+        case 'KB':
+            fileSizeInBytes *= 1024;
+            break;
+        case 'MB':
+            fileSizeInBytes *= 1024 * 1024;
+            break;
+        case 'GB':
+            fileSizeInBytes *= 1024 * 1024 * 1024;
+            break;
+        // Add more units if needed
+    }
+
+    // Check if the input is a number and greater than 0
+    if (isNaN(fileSizeInBytes) || fileSizeInBytes <= 0) {
+        alert('Please enter a valid file size (number greater than 0).');
+        return;
+    }
+
+    // Generate random bytes
+    var randomBinaryData = new Uint8Array(fileSizeInBytes);
+    window.crypto.getRandomValues(randomBinaryData);
+
+    // Convert the random bytes to a Blob object
+    var blob = new Blob([randomBinaryData], {type: 'application/octet-stream'});
+
+    // Create a link element
+    var link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'random_output.bin';
+    link.click();
+}
+</script>
+</head>
+<body>
+<div class="container">
+    <h1>Binary File Generator</h1>
+    <img src="binfilegen.jpeg" alt="Bin File Gen Image">
+    <input type="number" id="fileSize" placeholder="Enter file size">
+    <select id="sizeUnit">
+        <option value="B">Bytes (B)</option>
+        <option value="KB">Kilobytes (KB)</option>
+        <option value="MB">Megabytes (MB)</option>
+        <option value="GB">Gigabytes (GB)</option>
+        <!-- Add more options if needed -->
+    </select>
+    <button onclick="downloadBinFile()">Download Bin File</button>
+</div>
+</body>
+</html>
