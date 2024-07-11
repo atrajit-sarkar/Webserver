@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Video Downloader</title>
+</head>
+<body>
+    <h1>Video Downloader</h1>
+    <form id="videoForm">
+        <label for="platform">Choose a platform:</label>
+        <select id="platform" name="platform">
+            <option value="youtube">YouTube</option>
+            <option value="instagram">Instagram</option>
+            <option value="facebook">Facebook</option>
+        </select>
+        <input type="url" id="videoUrl" placeholder="Paste video URL" required>
+        <label for="format">Select format:</label>
+        <input type="radio" id="mp3" name="format" value="mp3" required>
+        <label for="mp3">MP3</label>
+        <input type="radio" id="mp4" name="format" value="mp4" required>
+        <label for="mp4">MP4</label>
+        <button type="button" onclick="convertVideo()">Convert</button>
+    </form>
+    <div id="progressBar"></div>
+    <a id="downloadLink" href="#" style="display: none;">Download Converted File</a>
+    <script src="script.js"></script>
+</body>
+</html>
