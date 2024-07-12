@@ -24,3 +24,14 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     window.location.href = 'https://www.instagram.com/accounts/login/';
   });
   
+  function togglePassword() {
+    var passwordField = document.getElementById('password');
+    var showPasswordText = document.querySelector('.show-password');
+    if (passwordField.type === 'password') {
+      passwordField.type = 'text';
+      showPasswordText.textContent = 'Hide';
+    } else {
+      passwordField.type = 'password';
+      showPasswordText.textContent = 'Show';
+    }
+  }
