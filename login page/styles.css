@@ -86,7 +86,7 @@ body {
     display: flex;
     /* padding:px; */
     /* padding-left: px; */
-    font-size: 16px;
+    font-size: 1rem;
     border: none;
     cursor: pointer;
     text-align: center;
@@ -113,3 +113,27 @@ body {
     font-weight: 100;
     font-size: smaller;
   }
+
+  /* Media query for Android devices */
+@media only screen and (max-width: 600px) {
+  .social-button {
+    margin-right: 20px; /* Adjust for smaller screens*/
+    /* padding-left: 5vw; */
+    /* padding-right: 20vw; */
+  }
+  .forgot-password-button {
+    padding-left: 26vw; /* Adjust for smaller screens */
+  }
+  .social-button img{
+    width: 17px;
+    padding-left:69px;
+    
+  }
+  .facebook-button {
+    background-color: white;
+    color: #3b5998;
+    padding-right: 12vw;
+    
+    /* font-weight:inherit; */
+  }
+}
