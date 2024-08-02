@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 import mailtm
 from flask_cors import CORS
+
 app = Flask(__name__)
 CORS(app)
+
 # Store received emails in a list
 received_emails = []
 
@@ -27,7 +29,6 @@ def clear_emails():
 @app.route('/start-listener', methods=['GET'])
 def start_listener():
     try:
-        # email = mailtm.Email()
         email.start(listener)
         return 'Email listener started'
     except Exception as e:
@@ -42,13 +43,34 @@ def fetch_emails():
 
 def listener(message):
     global received_emails
+    email_body = message['text'] if message['text'] else message['html']
+    button_text = None
+    button_link = None
+
+    # Check if the email body is HTML
+    if 'html' in message and message['html']:
+        email_body = message['html']
+        # Parse HTML to find button link and text
+        if '<a href="' in email_body:
+            start_index = email_body.index('<a href="') + len('<a href="')
+            end_index = email_body.index('"', start_index)
+            button_link = email_body[start_index:end_index]
+
+            button_text_start = email_body.index('>', start_index) + 1
+            button_text_end = email_body.index('</a>', button_text_start)
+            button_text = email_body[button_text_start:button_text_end]
+
     received_emails.append({
-        'to' : message['to'][0]['address'],
+        'to': message['to'][0]['address'],
         'from': message['from']['address'],
         'subject': message['subject'],
-        'body': message['text'] if message['text'] else message['html']
+        'body': email_body,
+        'button': {
+            'text': button_text,
+            'link': button_link
+        } if button_text and button_link else None
     })
     return 'Email received'
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0/0',debug=True)
+    app.run(debug=True)
